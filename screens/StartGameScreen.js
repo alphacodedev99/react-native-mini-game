@@ -8,6 +8,7 @@ export default function StartGameScreen() {
 	return (
 		<View style={styles.inputContainer}>
 			<TextInput />
+
 			<PrimaryButton>Reset</PrimaryButton>
 			<PrimaryButton>Confirm</PrimaryButton>
 		</View>
