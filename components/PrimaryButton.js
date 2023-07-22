@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
+import Colors from '../constants/Colors';
 
-export default function PrimaryButton({ children }) {
+export default function PrimaryButton({ children, onPress }) {
 	function handlePress() {
-		console.log('Radii');
+		onPress();
 	}
 
 	return (
@@ -21,7 +22,7 @@ export default function PrimaryButton({ children }) {
 
 const styles = StyleSheet.create({
 	buttonContainer: {
-		backgroundColor: 'red',
+		backgroundColor: Colors.primary800,
 		paddingHorizontal: 16,
 		paddingVertical: 8,
 		borderRadius: 20,
