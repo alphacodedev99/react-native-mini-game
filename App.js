@@ -13,22 +13,53 @@ import { useState } from 'react';
 // screens
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
+import GameOverScreen from './screens/GameOverScreen';
 
 export default function App() {
 	// number witch client/user picked
 	const [userNumber, setUserNumber] = useState(0);
+	// for game over state
+	const [isGameOver, setIsGameOver] = useState(true);
+	// guess rounds
+	const [guessRounds, setGuessRounds] = useState(0);
 
 	// root screen
 	let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
 
 	if (userNumber) {
-		screen = <GameScreen userNumber={userNumber} />;
+		screen = (
+			<GameScreen
+				userNumber={userNumber}
+				onGameOver={gameOverHandler}
+			/>
+		);
+	}
+
+	if (isGameOver && userNumber) {
+		screen = (
+			<GameOverScreen
+				guessRounds={guessRounds}
+				onStartNewGame={startNewGameHandler}
+				userNumber={userNumber}
+			/>
+		);
 	}
 
 	// FN for handle number from user
 	function pickedNumberHandler(pickNumberUser) {
 		setUserNumber(pickNumberUser);
-		console.log(pickNumberUser, 'from app js');
+		setIsGameOver(false);
+	}
+
+	// FN for handle game over screen and number of rounds
+	function gameOverHandler(numbOfRounds) {
+		setIsGameOver(true);
+		setGuessRounds(numbOfRounds);
+	}
+
+	// start new game over and over
+	function startNewGameHandler() {
+		setUserNumber(0);
 	}
 
 	return (

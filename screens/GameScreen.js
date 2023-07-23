@@ -19,23 +19,20 @@ function generateRandomBetween(min, max, exclude) {
 	}
 }
 
-let maxBoundary = 100;
 let minBoundary = 1;
+let maxBoundary = 100;
 
-function GameScreen({ userNumber }) {
+function GameScreen({ userNumber, onGameOver }) {
 	// init number of computer guess
-	// TODO: check this if min and max don't worked properly( CHECK HERE BECAUSE MAXIMUM OF STACK ERROR)
-	let initialGuess = generateRandomBetween(
-		minBoundary,
-		maxBoundary,
-		userNumber
-	);
+	let initialGuess = generateRandomBetween(1, 100, userNumber);
 	// state of my current guesses
 	const [currentGuess, setCurrentGuess] = useState(initialGuess);
+	// rounds of game
+	const [roundsOfGame, setRoundsOfGame] = useState([initialGuess]);
 
 	useEffect(() => {
 		if (currentGuess === userNumber) {
-			console.log('is over');
+			onGameOver(roundsOfGame.length);
 		}
 	}, [currentGuess]);
 
@@ -62,9 +59,10 @@ function GameScreen({ userNumber }) {
 		let newRandomGuess = generateRandomBetween(
 			minBoundary,
 			maxBoundary,
-			userNumber
+			currentGuess
 		);
 		setCurrentGuess(newRandomGuess);
+		setRoundsOfGame((prevGuess) => [...prevGuess, newRandomGuess]);
 	}
 
 	return (
