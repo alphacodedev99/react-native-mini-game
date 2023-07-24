@@ -1,8 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	Dimensions,
+} from 'react-native';
 import Colors from '../constants/Colors';
 import Title from '../components/Title';
 import PrimaryButton from '../components/PrimaryButton';
+
+const { height } = Dimensions.get('window');
 
 export default function GameOverScreen({
 	guessRounds,
@@ -11,7 +19,7 @@ export default function GameOverScreen({
 }) {
 	return (
 		<View style={styles.rootContainer}>
-			<Title>Game Over</Title>
+			{height < 420 ? null : <Title>Game Over</Title>}
 			<View style={styles.imageContainer}>
 				<Image
 					style={styles.imageLogo}
@@ -34,7 +42,7 @@ const styles = StyleSheet.create({
 	rootContainer: {
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'flex-start',
+		justifyContent: height < 420 ? 'center' : 'flex-start',
 		gap: 20,
 	},
 	textOfRounds: {
@@ -42,8 +50,8 @@ const styles = StyleSheet.create({
 		fontFamily: 'openBold',
 	},
 	imageContainer: {
-		width: 300,
-		height: 300,
+		width: height < 420 ? 150 : 300,
+		height: height < 420 ? 150 : 300,
 		overflow: 'hidden',
 		borderRadius: 150,
 		borderWidth: 3,

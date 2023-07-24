@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	FlatList,
+	useWindowDimensions,
+	ScrollView,
+} from 'react-native';
 import Title from '../components/Title';
 import { useEffect, useState } from 'react';
 import Colors from '../constants/Colors';
@@ -30,6 +37,8 @@ function GameScreen({ userNumber, onGameOver }) {
 	const [currentGuess, setCurrentGuess] = useState(initialGuess);
 	// rounds of game
 	const [roundsOfGame, setRoundsOfGame] = useState([initialGuess]);
+
+	const { height } = useWindowDimensions();
 
 	useEffect(() => {
 		if (currentGuess === userNumber) {
@@ -70,11 +79,18 @@ function GameScreen({ userNumber, onGameOver }) {
 
 	return (
 		<View style={styles.rootContainer}>
-			<Title>Opponent's Guess</Title>
+			{height < 420 ? null : <Title>Opponent's Guess</Title>}
 			<Text style={styles.currentGuessText}>{currentGuess}</Text>
 
 			<View style={styles.guessContainer}>
-				<Text>Higher or Lower</Text>
+				<Text
+					style={{
+						color: Colors.accent500,
+						textAlign: 'center',
+						fontFamily: 'openBold',
+					}}>
+					Higher or Lower
+				</Text>
 				<View style={styles.guessIconsContainer}>
 					<PrimaryButton onPress={() => nextGuessHandler('greater')}>
 						<Ionicons
@@ -92,6 +108,8 @@ function GameScreen({ userNumber, onGameOver }) {
 					</PrimaryButton>
 				</View>
 			</View>
+
+			{/* items render */}
 			<View style={styles.listContainer}>
 				<FlatList
 					data={roundsOfGame}
@@ -107,6 +125,9 @@ function GameScreen({ userNumber, onGameOver }) {
 export default GameScreen;
 
 const styles = StyleSheet.create({
+	screen: {
+		flex: 1,
+	},
 	rootContainer: {
 		flex: 1,
 		alignItems: 'center',
@@ -126,6 +147,8 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.primary500,
 		padding: 20,
 		marginTop: 30,
+		width: '80%',
+		borderRadius: 20,
 	},
 	guessIconsContainer: {
 		flexDirection: 'row',
