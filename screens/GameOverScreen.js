@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 	},
 	textOfRounds: {
 		color: 'white',
+		fontFamily: 'openBold',
 	},
 	imageContainer: {
 		width: 300,

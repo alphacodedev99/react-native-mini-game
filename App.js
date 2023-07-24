@@ -3,17 +3,20 @@ import {
 	ImageBackground,
 	SafeAreaView,
 	StyleSheet,
-	Text,
-	View,
 } from 'react-native';
 
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // screens
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
 import GameOverScreen from './screens/GameOverScreen';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 	// number witch client/user picked
@@ -22,6 +25,19 @@ export default function App() {
 	const [isGameOver, setIsGameOver] = useState(true);
 	// guess rounds
 	const [guessRounds, setGuessRounds] = useState(0);
+
+	const [fontsLoad] = useFonts({
+		openBold: require('./assets/fonts/OpenSans-Bold.ttf'),
+		openRegular: require('./assets/fonts/OpenSans-Regular.ttf'),
+	});
+
+	useEffect(() => {
+		SplashScreen.hideAsync();
+	}, [fontsLoad]);
+
+	if (!fontsLoad) {
+		return;
+	}
 
 	// root screen
 	let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
@@ -60,6 +76,7 @@ export default function App() {
 	// start new game over and over
 	function startNewGameHandler() {
 		setUserNumber(0);
+		// TODO: After start new game max and minBoundery reset from 1 to 100!(Maximum call stack size);
 	}
 
 	return (

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import Title from '../components/Title';
 import { useEffect, useState } from 'react';
 import Colors from '../constants/Colors';
@@ -7,6 +7,7 @@ import Colors from '../constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import PrimaryButton from '../components/PrimaryButton';
 import { Alert } from 'react-native';
+import ItemPerGuess from '../components/ItemPerGuess';
 
 // function for genereating random number between 1 and 100
 function generateRandomBetween(min, max, exclude) {
@@ -56,6 +57,8 @@ function GameScreen({ userNumber, onGameOver }) {
 			minBoundary = currentGuess + 1;
 		}
 
+		console.log(minBoundary, maxBoundary);
+
 		let newRandomGuess = generateRandomBetween(
 			minBoundary,
 			maxBoundary,
@@ -89,7 +92,14 @@ function GameScreen({ userNumber, onGameOver }) {
 					</PrimaryButton>
 				</View>
 			</View>
-			{/* flatlist or map-e for listing of guess */}
+			<View style={styles.listContainer}>
+				<FlatList
+					data={roundsOfGame}
+					renderItem={({ item }) => {
+						return <ItemPerGuess item={item} />;
+					}}
+				/>
+			</View>
 		</View>
 	);
 }
@@ -110,6 +120,7 @@ const styles = StyleSheet.create({
 		borderColor: Colors.accent500,
 		borderRadius: 20,
 		fontWeight: 'bold',
+		fontFamily: 'openBold',
 	},
 	guessContainer: {
 		backgroundColor: Colors.primary500,
@@ -121,5 +132,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		marginTop: 15,
 		gap: 20,
+	},
+	listContainer: {
+		flex: 1,
+		padding: 16,
 	},
 });
